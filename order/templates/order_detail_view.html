@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+			integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+			crossorigin="anonymous"
+		/>
+		<title>HW2</title>
+	</head>
+	<body>
+		{% comment %} {% endcomment %}
+		<div class="text-center container">
+			<h1 class="mt-4">Homework 2</h1>
+			<p class="mt-0 pt-0 mb-4">R10725032 鄭亦辰</p>
+			<main>
+				<section class="mx-auto mt-4">
+					<h2>order</h2>
+					<div class="d-flex justify-content-around border">
+						<div class="border">ID</div>
+						<div class="border">{{order.id}}</div>
+					</div>
+					<div class="d-flex justify-content-around border">
+						<div class="border">customer</div>
+						<div class="border">{{order.username}}</div>
+					</div>
+					<div class="d-flex justify-content-around border">
+						<div class="border">items</div>
+						<div class="border">
+							{% for item in items %}
+							<p class="m-0 p-0">{{item}}</p>
+							{% endfor %}
+						</div>
+					</div>
+				</section>
+				<a href="/" class="d-block mt-2 border mx-auto">返回</a>
+			</main>
+		</div>
+	</body>
+	<style>
+		section {
+			width: 375px;
+		}
+
+		main > a {
+			width: 375px;
+		}
+
+		a {
+			text-decoration: none;
+			color: #000 !important;
+		}
+
+		a > div {
+			border: 1px solid #000;
+		}
+
+		section a > div,
+		section > div > div {
+			flex: 1;
+		}
+	</style>
+	<script>
+		const searchResult = document.querySelector(".search-result");
+		document
+			.querySelector(".search-form-btn")
+			.addEventListener("click", function (evet) {
+				event.preventDefault();
+				const searchContent =
+					document.querySelector(".search-content").value;
+				fetch(`/orders?name=${searchContent}`)
+					.then(function (response) {
+						return response.json();
+					})
+					.then(function (myJson) {
+						if (myJson.length != 0) {
+							let renderHTML = "";
+							myJson.forEach(function (order) {
+								renderHTML += `<a href="/orders/${order.id}" class="d-flex justify-content-around border">
+											<div class="border">${order.id}</div>
+											<div class="border">${order.username}</div>
+											</a>`;
+							});
+							searchResult.innerHTML = renderHTML;
+						} else {
+							searchResult.innerText = "No Orders";
+						}
+					});
+			});
+	</script>
+</html>
