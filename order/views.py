@@ -12,8 +12,13 @@ from order.models import *
 
 # Create your views here.
 def indexView(request: HttpRequest):
+	print('----------indexView-----------------')
+	if request.session.get('samlUserdata'):
+		samlUserdata = request.session.get('samlUserdata')
+	else:
+		samlUserdata = None
 	usernames = list(set([n[0] for n in Order.objects.all().values_list('username')]))
-	return render(request, "index.html", { 'usernames': usernames })
+	return render(request, "index.html", { 'usernames': usernames, 'samlUserdata': samlUserdata})
 
 def orderDetailView(request: HttpRequest, oid):
 	try:

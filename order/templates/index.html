@@ -23,8 +23,13 @@
 	<body>
 		{% comment %} {% endcomment %}
 		<div class="text-center container">
-			<h1 class="mt-4">Homework 2</h1>
-			<p class="mt-0 pt-0 mb-4">R10725032 鄭亦辰</p>
+			<div class="top-name">
+				<h1 class="mt-4">Homework 2</h1>
+				<p class="mt-0 pt-0 mb-4">R10725032 鄭亦辰</p>
+			</div>
+			{% if samlUserdata %}
+			<p>目前登入者為: {{samlUserdata}}</p>
+			<a class="btn btn-warning" href="/saml/slo">登出</a>
 			<main>
 				<form class="text-center">
 					<select class="search-content" name="state">
@@ -57,9 +62,16 @@
 					</div>
 				</section>
 			</main>
+			{% else %}
+			<a href="/saml/sso" class="btn btn-primary">登入</a>
+			{% endif %}
 		</div>
 	</body>
 	<style>
+		.top-name {
+			background-color: #b887de;
+		}
+
 		section {
 			width: 375px;
 		}
@@ -78,6 +90,7 @@
 			flex: 1;
 		}
 	</style>
+	{% if samlUserdata %}
 	<script>
 		$(".search-content").select2({
 			placeholder: "請選擇Customer",
@@ -91,7 +104,7 @@
 				event.preventDefault();
 				const searchContent =
 					document.querySelector(".search-content").value;
-				fetch(`/orders?name=${searchContent}`)
+				fetch(`/search_orders?name=${searchContent}`)
 					.then(function (response) {
 						return response.json();
 					})
@@ -111,4 +124,5 @@
 					});
 			});
 	</script>
+	{% endif %}
 </html>

@@ -17,8 +17,10 @@
 	<body>
 		{% comment %} {% endcomment %}
 		<div class="text-center container">
-			<h1 class="mt-4">Homework 2</h1>
-			<p class="mt-0 pt-0 mb-4">R10725032 鄭亦辰</p>
+			<div class="top-name">
+				<h1 class="mt-4">Homework 2</h1>
+				<p class="mt-0 pt-0 mb-4">R10725032 鄭亦辰</p>
+			</div>
 			<main>
 				<section class="mx-auto mt-4">
 					<h2>order</h2>
@@ -44,6 +46,10 @@
 		</div>
 	</body>
 	<style>
+		.top-name {
+			background-color: #b887de;
+		}
+
 		section {
 			width: 375px;
 		}
@@ -66,32 +72,4 @@
 			flex: 1;
 		}
 	</style>
-	<script>
-		const searchResult = document.querySelector(".search-result");
-		document
-			.querySelector(".search-form-btn")
-			.addEventListener("click", function (evet) {
-				event.preventDefault();
-				const searchContent =
-					document.querySelector(".search-content").value;
-				fetch(`/orders?name=${searchContent}`)
-					.then(function (response) {
-						return response.json();
-					})
-					.then(function (myJson) {
-						if (myJson.length != 0) {
-							let renderHTML = "";
-							myJson.forEach(function (order) {
-								renderHTML += `<a href="/orders/${order.id}" class="d-flex justify-content-around border">
-											<div class="border">${order.id}</div>
-											<div class="border">${order.username}</div>
-											</a>`;
-							});
-							searchResult.innerHTML = renderHTML;
-						} else {
-							searchResult.innerText = "No Orders";
-						}
-					});
-			});
-	</script>
 </html>
